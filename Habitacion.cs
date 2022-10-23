@@ -1,28 +1,15 @@
-﻿using System;
-
-namespace HotelSystem
+﻿namespace HotelSystem
 {
     /// <summary>
     /// Summary description for Habitacion
     /// </summary>
 	public class Habitacion
-	{
+    {
         public int nroHabitacion;
         public int nroPiso;
         public bool estado;
         public int cantidadCamas;
         public string descripcion = "";
-        private static int Precio;
-        public static void CargaPrecio()
-        {
-            Console.WriteLine("Ingrese el precio de las habitaciones\n");
-            int a = ValidarInt(Console.ReadLine());
-            Precio = a;
-        }
-        public int DevPrecio()
-        {
-            return Precio;
-        }
         public static int ValidarInt(string? a)
         {
             int ret;
@@ -102,26 +89,69 @@ namespace HotelSystem
         }
     }
     public class Individual : Habitacion
-    { 
-
+    {
+        public static int Precio;
+        public static void CargaPrecio()
+        {
+            Console.WriteLine("Ingrese el precio de las habitaciones Individuales");
+            int a = ValidarInt(Console.ReadLine());
+            Precio = a;
+        }
+        public int DevPrecio()
+        {
+            return Precio;
+        }
     }
     public class Doble : Habitacion
     {
-        public static bool EsDoble()
+        public static int Precio;
+        public static void CargaPrecio()
+        {
+            Console.WriteLine("Ingrese el precio de las habitaciones Dobles");
+            int a = ValidarInt(Console.ReadLine());
+            Precio = a;
+        }
+        public int DevPrecio()
+        {
+            return Precio;
+        }
+        public bool EsDoble()
         {
             return true;
         }
     }
     public class Ejecutiva : Habitacion
     {
-        public static bool EsEjecutiva() 
+        public static int Precio;
+        public static void CargaPrecio()
         {
-            return true; 
+            Console.WriteLine("Ingrese el precio de las habitaciones Ejecutivas");
+            int a = ValidarInt(Console.ReadLine());
+            Precio = a;
+        }
+        public int DevPrecio()
+        {
+            return Precio;
+        }
+        public bool EsEjecutiva()
+        {
+            return true;
         }
     }
     public class Suite : Habitacion
     {
-        public static bool EsSuite()
+        public static int Precio;
+        public static void CargaPrecio()
+        {
+            Console.WriteLine("Ingrese el precio de las Suites");
+            int a = ValidarInt(Console.ReadLine());
+            Precio = a;
+        }
+        public int DevPrecio()
+        {
+            return Precio;
+        }
+        public bool EsSuite()
         {
             return true;
         }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq.Expressions;
+﻿using System.Collections;
 
 namespace HotelSystem
 {
@@ -9,7 +7,7 @@ namespace HotelSystem
         public int nroReserva;
         public DateTime fechaDesde;
         public DateTime fechaHasta;
-        public Habitacion objHabitacion = new();
+        public object objHabitacion = new();
         public Cliente objCliente = new();
         public SortedList coleccionServicios = new();
         private static int contaReserva;
@@ -33,7 +31,7 @@ namespace HotelSystem
         {
             return nroReserva;
         }
-        public Habitacion DevObjHabitacion()
+        public object DevObjHabitacion()
         {
             return objHabitacion;
         }
@@ -44,22 +42,44 @@ namespace HotelSystem
         public void MostrarReserva()
         {
             TimeSpan cantDias = fechaHasta - fechaDesde;
-            int subTotal = objHabitacion.DevPrecio();//Arreglar devPrecio para clase Habitacion????
+            int subTotal;
+            if (objHabitacion.GetType().ToString() == "Individual") 
+            {
+                subTotal = Individual.Precio;//Arreglar devPrecio para clase Habitacion????
+            }
+            else if (objHabitacion.GetType().ToString() == "Doble")
+            {
+                subTotal = Doble.Precio;//Arreglar devPrecio para clase Habitacion????
+            }
+            else if (objHabitacion.GetType().ToString() == "Ejecutiva")
+            {
+                subTotal = Ejecutiva.Precio;//Arreglar devPrecio para clase Habitacion????
+            }
+            else if (objHabitacion.GetType().ToString() == "Suite")
+            {
+                subTotal = Suite.Precio;//Arreglar devPrecio para clase Habitacion????
+            }
+            else
+            {
+                subTotal = 0;
+            }
             string aux = cantDias.ToString();
             string aux2 = "";
             //Arreglar solo tomar los dias
             foreach (char element in aux)
             {
-                while (element != '.')
+                do
                 {
                     aux2 += element;
-                }
+                } while (element != '.');
             }
             int aux3 = ValidarInt(aux2);
             int total = aux3 * subTotal;
-
+            Console.WriteLine($"subtotal{subTotal}");
+            Console.WriteLine($"aux3 {aux3}");
+            Console.WriteLine($"Total {total}");
         }
-        public void CargaReserva(Habitacion hb, Cliente cl)
+        public void CargaReserva(object hb, Cliente cl)
         {
             Console.WriteLine("Cargue la fecha de inicio de la reserva");
             fechaDesde = CargaFecha();

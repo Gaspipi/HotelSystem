@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
-
-namespace HotelSystem
+﻿namespace HotelSystem
 {
     /// <summary>
     /// Summary description for Cliente
     /// </summary>
     public class Cliente
     {
-        private static int Id;
+        public static int Id;
         public int id;
         public int dni;
         public string name = "";
@@ -26,38 +23,37 @@ namespace HotelSystem
         }
         public void MostrarCliente()
         {
-            Console.WriteLine("////////////////////////////////\n");
-            Console.WriteLine($"\n#{id}\n");
-            Console.WriteLine("////////////////////////////////\n");
-            Console.WriteLine($"\nDNI {dni}\n");
-            Console.WriteLine("////////////////////////////////\n");
-            Console.WriteLine($"\nApellido {lastName}\n");
-            Console.WriteLine("////////////////////////////////\n");
-            Console.WriteLine($"\nNombre {name}\n");
-            Console.WriteLine("////////////////////////////////\n");
-            Console.WriteLine($"\nDireccion {addr}\n");
-            Console.WriteLine("////////////////////////////////\n");
-            Console.WriteLine($"\nTelefono {phone}\n");
+            Console.WriteLine("////////////////////////////////");
+            Console.WriteLine($"#{id}");
+            Console.WriteLine("////////////////////////////////");
+            Console.WriteLine($"DNI {dni}");
+            Console.WriteLine("////////////////////////////////");
+            Console.WriteLine($"Apellido {lastName}");
+            Console.WriteLine("////////////////////////////////");
+            Console.WriteLine($"Nombre {name}");
+            Console.WriteLine("////////////////////////////////");
+            Console.WriteLine($"Direccion {addr}");
+            Console.WriteLine("////////////////////////////////");
+            Console.WriteLine($"Telefono {phone}");
         }
-        public void CargaDatos(int? clDni)
+        public void CargaDatos(int clDni)
         {
-            int dni;
-            if (clDni == null)
+            if (clDni == 0)
             {
                 Console.WriteLine("Ingrese el numero de DNI");
                 dni = ValidarInt(Console.ReadLine());
             }
             else
             {
-                dni = (int)clDni;
+                dni = clDni;
             }
-            Console.WriteLine("Ingrese el numero de DNI");
+            Console.WriteLine("NOMBRE\n");
             name = ValidarStr(Console.ReadLine());
-            Console.WriteLine("Ingrese el numero de DNI");
+            Console.WriteLine("APELLIDO\n");
             lastName = ValidarStr(Console.ReadLine());
-            Console.WriteLine("Ingrese el numero de DNI");
+            Console.WriteLine("DIRECCION\n");
             addr = ValidarStr(Console.ReadLine());
-            Console.WriteLine("Ingrese el numero de DNI");
+            Console.WriteLine("TELEFONO\n");
             phone = ValidarLong(Console.ReadLine());
             id = Id;
             ActualizaId();

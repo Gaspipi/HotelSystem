@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Net;
 
 namespace HotelSystem
 {
@@ -7,10 +7,10 @@ namespace HotelSystem
     /// </summary>
     public class Hotel
     {
-        private SortedList coleccionClientes = new();
-        private SortedList coleccionHabitaciones = new();
-        private SortedList coleccionServicios = new();
-        private SortedList coleccionReservas = new();
+        private static List<Cliente> coleccionClientes = new();
+        private static List<object> coleccionHabitaciones = new();
+        //private List<Servicio> coleccionServicios = new();
+        private static List<Reserva> coleccionReservas = new();
         public void Inicio()
         {
             ///Aqui se inicializan todas las variables de instancia.
@@ -68,9 +68,9 @@ namespace HotelSystem
                         bool resp;
                         do
                         {
-                                CreaCliente();
-                                Console.WriteLine("Desea crear otro cliente? S/n\n");
-                                resp = ValidarBool();
+                            CreaCliente();
+                            Console.WriteLine("Desea crear otro cliente? S/n\n");
+                            resp = ValidarBool();
                         } while (resp);
                         break;
                     case 2:
@@ -83,10 +83,11 @@ namespace HotelSystem
                             {
                                 CreaCliente();
                             }
-                            else
-                            {
-                                ListarClientes();
-                            }
+                            
+                        }
+                        else
+                        {
+                            ListarClientes();
                         }
                         break;
                     case 3:
@@ -104,14 +105,10 @@ namespace HotelSystem
         public void MenuHabitaciones()
         {
             int op;
-            bool val;
             do
             {
-                do
-                {
-                    Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga habitacion\n2- Listado de habitaciones\n3- Buscar habitacion\n0- Salir\n");
-                    val = int.TryParse(Console.ReadLine(), out op);
-                } while (!val);
+                Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga habitacion\n2- Listado de habitaciones\n3- Buscar habitacion\n0- Salir\n");
+                op = ValidarInt(Console.ReadLine());
                 switch (op)
                 {
                     case 1:
@@ -149,14 +146,10 @@ namespace HotelSystem
         public void MenuServicios()
         {
             int op;
-            bool val;
             do
             {
-                do
-                {
-                    Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga servicio\n2- Listado de servicios\n3- Buscar servicio\n0- Salir\n");
-                    val = int.TryParse(Console.ReadLine(), out op);
-                } while (!val);
+                Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga servicio\n2- Listado de servicios\n3- Buscar servicio\n0- Salir\n");
+                op = ValidarInt(Console.ReadLine());
                 switch (op)
                 {
                     case 1:
@@ -196,16 +189,16 @@ namespace HotelSystem
             int op;
             do
             {
-                    Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga reserva\n2- Listado de reservas\n3- Buscar reserva\n0- Salir\n");
-                    op = ValidarInt(Console.ReadLine());
+                Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga reserva\n2- Listado de reservas\n3- Buscar reserva\n0- Salir\n");
+                op = ValidarInt(Console.ReadLine());
                 switch (op)
                 {
                     case 1:
                         bool resp;
                         do
                         {
-                            CreaCliente();
-                            Console.WriteLine("Desea crear otro cliente? S/n\n");
+                            CreaReserva();
+                            Console.WriteLine("Desea crear otro reserva? S/n\n");
                             resp = ValidarBool();
                         } while (resp);
                         break;
@@ -234,25 +227,12 @@ namespace HotelSystem
         }
         public static Cliente CreaCliente()
         {
-            Console.WriteLine("DNI\n");
-            int id = ValidarInt(Console.ReadLine());
-            Console.WriteLine("NOMBRE\n");
-            string name = ValidarStr(Console.ReadLine());
-            Console.WriteLine("APELLIDO\n");
-            string lastname = ValidarStr(Console.ReadLine());
-            Console.WriteLine("DIRECCION\n");
-            string addr = ValidarStr(Console.ReadLine());
-            Console.WriteLine("TELEFONO\n");
-            long phone = ValidarLong(Console.ReadLine());
-            Cliente cliente = new()
-            {
-                id = id,
-                name = name,
-                lastName = lastname,
-                addr = addr,
-                phone = phone
-            };
+            Console.WriteLine("Ingrese el numero de DNI");
+            int dni = ValidarInt(Console.ReadLine());
+            Cliente cliente = new();
+            cliente.CargaDatos(dni);
             cliente.MostrarCliente();
+            coleccionClientes.Add(cliente);
             return cliente;
         }
         public void ListarClientes()
@@ -262,23 +242,37 @@ namespace HotelSystem
                 cl.MostrarCliente();
             }
         }
-        public Cliente BuscarCliente()
+        public static Cliente BuscarCliente()
         {
-            Console.WriteLine("Ingrese numero de DNI");
-            int dni = ValidarInt(Console.ReadLine());
+            bool resp;
             Cliente cl = null;
-            foreach (Cliente cliente in coleccionClientes)
+            do
             {
-                if (cliente.dni == dni)
+                Console.WriteLine("Ingrese numero de DNI");
+                int dni = ValidarInt(Console.ReadLine());
+
+                foreach (Cliente client in coleccionClientes)
                 {
-                    cl = cliente;
+                    Console.WriteLine("BUSCANDO");
+                    if (client.dni == dni)
+                    {
+                        cl = client;
+                        Console.WriteLine("ENCONTRADO");
+                        resp = false;
+                        break;
+                    }
+                    
                 }
-            }
-            //coleccionClientes Hacer busqueda dentro de coleccion, si devuelve null crear cliente nuevo
-            if (cl == null)
-            {
-                cl = CreaCliente();
-            }
+                if(cl == null)
+                {
+                    Console.WriteLine("No se encontro un cliente con el DNI ingresado.");
+                    Console.WriteLine("Desea crear uno nuevo?");
+                    resp = ValidarBool();
+                }
+                else { resp = false;
+                    cl.MostrarCliente();
+                }
+            } while (resp);            
             return cl;
         }
         public static string ValidarStr(string? a)
@@ -331,7 +325,7 @@ namespace HotelSystem
             } while (!esEntero);
             return ret;
         }
-        public bool ValidarBool()
+        public static bool ValidarBool()
         {
             ConsoleKeyInfo a;
             bool esBoolean = false;
@@ -363,26 +357,69 @@ namespace HotelSystem
                 do
                 {
                     op = ValidarInt(Console.ReadLine());
-                   /* switch (op)
-                    {
-                        case 1: hb = new Individual(); break;
-                        case 2: hb = new Doble(); break;
-                        case 3: hb = new Ejecutiva(); break;
-                        case 4: hb = new Suite(); break;
-                    }*/
-                   if (op == 1) { hb = new Individual(); }
-                   else if (op == 2) { hb = new Doble(); }
-                   else if (op == 3) { hb = new Ejecutiva(); }
-                   else if (op == 4) { hb = new Suite(); }
+                    /* switch (op)
+                     {
+                         case 1: hb = new Individual(); break;
+                         case 2: hb = new Doble(); break;
+                         case 3: hb = new Ejecutiva(); break;
+                         case 4: hb = new Suite(); break;
+                     }*/
+                    if (op == 1) { hb = new Individual(); }
+                    else if (op == 2) { hb = new Doble(); }
+                    else if (op == 3) { hb = new Ejecutiva(); }
+                    else if (op == 4) { hb = new Suite(); }
                 } while (op < 1 || op > 4);
                 hb.CargaDatos();
                 Console.WriteLine("Desea cargar otra habitacion?\n");
                 resp = ValidarBool();
-            }while(resp);
+            } while (resp);
         }
         public void ListarHabitaciones()
         {
 
+        }
+        public static object BuscarHabitacion()
+        {
+            int nroHb;
+            object aux = null;
+            bool resp;
+            do
+            {
+                Console.WriteLine("Ingrese el numero de habitacion");
+                nroHb = ValidarInt(Console.ReadLine());
+                foreach (Habitacion hb in coleccionHabitaciones)
+                {
+                    if (nroHb == hb.nroHabitacion)
+                    {
+                        aux = hb;
+                        resp = false;
+                        break;
+                    }
+                }
+                if (aux == null)
+                {
+
+                    Console.WriteLine("No hay habitacion cargada con ese numero, debe ingresar el numero correcto.");
+                    Console.WriteLine("Desea volver a intentar? S/n");
+                    resp = ValidarBool();
+                }
+                else { resp = false; }
+            } while (!resp);
+            return aux;
+        }
+        public static void CreaReserva()
+        {
+            bool resp;
+            bool respBsh;
+            Reserva re;
+            object objHabitacion = null;
+            Cliente objCliente = null;
+            objHabitacion = BuscarHabitacion();
+            objCliente = BuscarCliente();
+            re = new();
+            re.objHabitacion = objHabitacion;
+            re.objCliente = objCliente;
+            coleccionReservas.Add(re);
         }
     }
 }
