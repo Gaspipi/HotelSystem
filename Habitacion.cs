@@ -2,6 +2,9 @@
 
 namespace HotelSystem
 {
+    /// <summary>
+    /// Summary description for Habitacion
+    /// </summary>
 	public class Habitacion
 	{
         public int nroHabitacion;
@@ -9,13 +12,18 @@ namespace HotelSystem
         public bool estado;
         public int cantidadCamas;
         public string descripcion = "";
-        public static int Precio;
-
+        private static int Precio;
+        public static void CargaPrecio()
+        {
+            Console.WriteLine("Ingrese el precio de las habitaciones\n");
+            int a = ValidarInt(Console.ReadLine());
+            Precio = a;
+        }
         public int DevPrecio()
         {
             return Precio;
         }
-        public static int ValidarInt(string a)
+        public static int ValidarInt(string? a)
         {
             int ret;
             bool esEntero;
@@ -33,10 +41,10 @@ namespace HotelSystem
             } while (!esEntero);
             return ret;
         }
-        public bool ValidarBool()
+        public static bool ValidarBool()
         {
             ConsoleKeyInfo a;
-            bool esBoolean = false;
+            bool esBoolean;
             do
             {
                 a = Console.ReadKey();
@@ -54,36 +62,6 @@ namespace HotelSystem
             } while (true);
             return esBoolean;
         }
-        public static void CargaPrecio()
-        {
-            int ret = 0;
-            bool esEntero;
-            do
-            {
-                Console.WriteLine($"Ingrese el precio de las habitaciones Individuales\n");
-                string a = Console.ReadLine();
-                esEntero = Int32.TryParse(a, out ret);
-                if (!esEntero)
-                {
-                    Console.WriteLine("Ingrese datos validos\n");
-                }
-            } while (!esEntero);
-            Precio = ret;
-        }
-    }
-    public class Individual : Habitacion
-	{
-        public void ActEstado()
-        {
-            if (estado)
-            {
-                estado = false;
-            }
-            else if (!estado)
-            {
-                estado = true;
-            }
-        }
         public void CargaDatos()
         {
             Console.WriteLine("Ingrese el numero de habitacion");
@@ -97,42 +75,55 @@ namespace HotelSystem
             Console.WriteLine("Ingrese una descripcion");
             descripcion = ValidarStr(Console.ReadLine());
         }
-        public static string ValidarStr(string a)
+        public static string ValidarStr(string? a)
         {
-            bool esString;
+            bool esNull;
             do
             {
-                esString = (String.IsNullOrEmpty(a) && String.IsNullOrWhiteSpace(a));
-                if (esString)
+                esNull = (String.IsNullOrEmpty(a) || String.IsNullOrWhiteSpace(a));
+                if (esNull)
                 {
-                    Console.WriteLine("El valor no puede ser un espacio en blanco ni vacio");
+                    Console.WriteLine("El valor no puede ser un espacio en blanco ni vacio\n");
                     a = Console.ReadLine();
                 }
-            } while (esString);
+            } while (esNull);
             return a;
         }
-        
+        public void ActEstado()
+        {
+            if (estado)
+            {
+                estado = false;
+            }
+            else if (!estado)
+            {
+                estado = true;
+            }
+        }
+    }
+    public class Individual : Habitacion
+    { 
+
     }
     public class Doble : Habitacion
     {
-        public bool EsDoble()
+        public static bool EsDoble()
         {
             return true;
         }
     }
     public class Ejecutiva : Habitacion
     {
-        public bool EsEjecutiva() 
+        public static bool EsEjecutiva() 
         {
             return true; 
         }
     }
-
     public class Suite : Habitacion
     {
-        public bool EsSuite() 
+        public static bool EsSuite()
         {
             return true;
-        }    
+        }
     }
 }

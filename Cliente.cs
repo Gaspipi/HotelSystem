@@ -3,14 +3,17 @@ using System.Collections;
 
 namespace HotelSystem
 {
+    /// <summary>
+    /// Summary description for Cliente
+    /// </summary>
     public class Cliente
     {
-        public static int Id;
+        private static int Id;
         public int id;
         public int dni;
-        public string name;
-        public string lastName;
-        public string addr;
+        public string name = "";
+        public string lastName = "";
+        public string addr = "";
         public long phone;
 
         public static void IniciaId()
@@ -36,17 +39,17 @@ namespace HotelSystem
             Console.WriteLine("////////////////////////////////\n");
             Console.WriteLine($"\nTelefono {phone}\n");
         }
-        public void CargaDatos(int clDni)
+        public void CargaDatos(int? clDni)
         {
             int dni;
-            if (clDni == 0)
+            if (clDni == null)
             {
                 Console.WriteLine("Ingrese el numero de DNI");
                 dni = ValidarInt(Console.ReadLine());
             }
             else
             {
-                dni = clDni;
+                dni = (int)clDni;
             }
             Console.WriteLine("Ingrese el numero de DNI");
             name = ValidarStr(Console.ReadLine());
@@ -56,24 +59,24 @@ namespace HotelSystem
             addr = ValidarStr(Console.ReadLine());
             Console.WriteLine("Ingrese el numero de DNI");
             phone = ValidarLong(Console.ReadLine());
-            id = id;
+            id = Id;
             ActualizaId();
         }
-        public static string ValidarStr(string a)
+        public static string ValidarStr(string? a)
         {
-            bool esString;
+            bool esNull;
             do
             {
-                esString = (String.IsNullOrEmpty(a) && String.IsNullOrWhiteSpace(a));
-                if (esString)
+                esNull = (String.IsNullOrEmpty(a) || String.IsNullOrWhiteSpace(a));
+                if (esNull)
                 {
                     Console.WriteLine("El valor no puede ser un espacio en blanco ni vacio");
                     a = Console.ReadLine();
                 }
-            } while (esString);
+            } while (esNull);
             return a;
         }
-        public static int ValidarInt(string a)
+        public static int ValidarInt(string? a)
         {
             int ret;
             bool esEntero;
@@ -91,7 +94,7 @@ namespace HotelSystem
             } while (!esEntero);
             return ret;
         }
-        public static long ValidarLong(string a)
+        public static long ValidarLong(string? a)
         {
             long ret;
             bool esEntero;

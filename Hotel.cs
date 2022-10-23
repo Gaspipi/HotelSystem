@@ -2,7 +2,6 @@
 
 namespace HotelSystem
 {
-
     /// <summary>
     /// Summary description for Hotel
     /// </summary>
@@ -104,15 +103,134 @@ namespace HotelSystem
         }
         public void MenuHabitaciones()
         {
-
+            int op;
+            bool val;
+            do
+            {
+                do
+                {
+                    Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga habitacion\n2- Listado de habitaciones\n3- Buscar habitacion\n0- Salir\n");
+                    val = int.TryParse(Console.ReadLine(), out op);
+                } while (!val);
+                switch (op)
+                {
+                    case 1:
+                        bool resp;
+                        do
+                        {
+                            CreaHabitacion();
+                            Console.WriteLine("Desea crear otra habitacion? S/n\n");
+                            resp = ValidarBool();
+                        } while (resp);
+                        break;
+                    case 2:
+                        if (coleccionHabitaciones == null) ///coleccion clientes vacia
+                        {
+                            Console.WriteLine("NO HAY CLIENTES CARGADOS!\n");
+                            Console.WriteLine("Desea cargar un cliente nuevo? S/n\n");
+                            bool respAlt = ValidarBool();
+                            if (respAlt)
+                            {
+                                CreaHabitacion();
+                            }
+                            else
+                            {
+                                ListarHabitaciones();
+                            }
+                        }
+                        break;
+                    case 3:
+                        break;
+                    case 0:
+                        break;
+                }
+            } while (op != 0);
         }
         public void MenuServicios()
         {
-
+            int op;
+            bool val;
+            do
+            {
+                do
+                {
+                    Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga servicio\n2- Listado de servicios\n3- Buscar servicio\n0- Salir\n");
+                    val = int.TryParse(Console.ReadLine(), out op);
+                } while (!val);
+                switch (op)
+                {
+                    case 1:
+                        bool resp;
+                        do
+                        {
+                            CreaCliente();
+                            Console.WriteLine("Desea crear otro cliente? S/n\n");
+                            resp = ValidarBool();
+                        } while (resp);
+                        break;
+                    case 2:
+                        if (coleccionClientes == null) ///coleccion clientes vacia
+                        {
+                            Console.WriteLine("NO HAY CLIENTES CARGADOS!\n");
+                            Console.WriteLine("Desea cargar un cliente nuevo? S/n\n");
+                            bool respAlt = ValidarBool();
+                            if (respAlt)
+                            {
+                                CreaCliente();
+                            }
+                            else
+                            {
+                                ListarClientes();
+                            }
+                        }
+                        break;
+                    case 3:
+                        break;
+                    case 0:
+                        break;
+                }
+            } while (op != 0);
         }
         public void MenuReservas()
         {
-
+            int op;
+            do
+            {
+                    Console.WriteLine("MENU CLIENTES: Ingrese una opcion.\n1- Carga reserva\n2- Listado de reservas\n3- Buscar reserva\n0- Salir\n");
+                    op = ValidarInt(Console.ReadLine());
+                switch (op)
+                {
+                    case 1:
+                        bool resp;
+                        do
+                        {
+                            CreaCliente();
+                            Console.WriteLine("Desea crear otro cliente? S/n\n");
+                            resp = ValidarBool();
+                        } while (resp);
+                        break;
+                    case 2:
+                        if (coleccionClientes == null) ///coleccion clientes vacia
+                        {
+                            Console.WriteLine("NO HAY CLIENTES CARGADOS!\n");
+                            Console.WriteLine("Desea cargar un cliente nuevo? S/n\n");
+                            bool respAlt = ValidarBool();
+                            if (respAlt)
+                            {
+                                CreaCliente();
+                            }
+                            else
+                            {
+                                ListarClientes();
+                            }
+                        }
+                        break;
+                    case 3:
+                        break;
+                    case 0:
+                        break;
+                }
+            } while (op != 0);
         }
         public static Cliente CreaCliente()
         {
@@ -163,12 +281,12 @@ namespace HotelSystem
             }
             return cl;
         }
-        public static string ValidarStr(string a)
+        public static string ValidarStr(string? a)
         {
             bool esNull;
             do
             {
-                esNull = (String.IsNullOrEmpty(a) && String.IsNullOrWhiteSpace(a));
+                esNull = (String.IsNullOrEmpty(a) || String.IsNullOrWhiteSpace(a));
                 if (esNull)
                 {
                     Console.WriteLine("El valor no puede ser un espacio en blanco ni vacio");
@@ -177,7 +295,7 @@ namespace HotelSystem
             } while (esNull);
             return a;
         }
-        public static int ValidarInt(string a)
+        public static int ValidarInt(string? a)
         {
             int ret;
             bool esEntero;
@@ -195,7 +313,7 @@ namespace HotelSystem
             } while (!esEntero);
             return ret;
         }
-        public static long ValidarLong(string a)
+        public static long ValidarLong(string? a)
         {
             long ret;
             bool esEntero;
@@ -233,6 +351,38 @@ namespace HotelSystem
                 }
             } while (true);
             return esBoolean;
+        }
+        public void CreaHabitacion()
+        {
+            int op;
+            Habitacion hb = new();
+            bool resp;
+            do
+            {
+                Console.WriteLine("INGRESE UNA OPCION: \n1- Individual 2-\nDoble \n3- Ejecutiva \n4- Suite\n");
+                do
+                {
+                    op = ValidarInt(Console.ReadLine());
+                   /* switch (op)
+                    {
+                        case 1: hb = new Individual(); break;
+                        case 2: hb = new Doble(); break;
+                        case 3: hb = new Ejecutiva(); break;
+                        case 4: hb = new Suite(); break;
+                    }*/
+                   if (op == 1) { hb = new Individual(); }
+                   else if (op == 2) { hb = new Doble(); }
+                   else if (op == 3) { hb = new Ejecutiva(); }
+                   else if (op == 4) { hb = new Suite(); }
+                } while (op < 1 || op > 4);
+                hb.CargaDatos();
+                Console.WriteLine("Desea cargar otra habitacion?\n");
+                resp = ValidarBool();
+            }while(resp);
+        }
+        public void ListarHabitaciones()
+        {
+
         }
     }
 }
