@@ -43,7 +43,7 @@ namespace HotelSystem
         {
             TimeSpan cantDias = fechaHasta - fechaDesde;
             int subTotal;
-            if (objHabitacion.GetType().ToString() == "Individual") 
+            if (objHabitacion.GetType().ToString() == "Individual")
             {
                 subTotal = Individual.Precio;//Arreglar devPrecio para clase Habitacion????
             }
@@ -79,7 +79,7 @@ namespace HotelSystem
             Console.WriteLine($"aux3 {aux3}");
             Console.WriteLine($"Total {total}");
         }
-        public void CargaReserva(object hb, Cliente cl)
+        public void CargaReserva(Habitacion hb, Cliente cl)
         {
             Console.WriteLine("Cargue la fecha de inicio de la reserva");
             fechaDesde = CargaFecha();

@@ -87,9 +87,27 @@
                 estado = true;
             }
         }
+        public void MostrarHabitacion()
+        {
+            Console.WriteLine($"Nro Habitacion: {nroHabitacion}");
+            Console.WriteLine($"Nro Piso: {nroPiso}");
+            Console.WriteLine($"Estado: {DevEstado()}");
+            Console.WriteLine($"Cantidad de camas: {cantidadCamas}");
+        }
+        public string DevEstado()
+        {
+            string a;
+            switch (!estado)
+            {
+                case true: a = "Disponible"; break;
+                case false: a = "Ocupada"; break;
+            }
+            return a;
+        }
     }
     public class Individual : Habitacion
     {
+        public static readonly string tipo = "Individual";
         public static int Precio;
         public static void CargaPrecio()
         {
@@ -104,6 +122,7 @@
     }
     public class Doble : Habitacion
     {
+        public static readonly string tipo = "Doble";
         public static int Precio;
         public static void CargaPrecio()
         {
@@ -122,6 +141,7 @@
     }
     public class Ejecutiva : Habitacion
     {
+        public static readonly string tipo = "Ejecutiva";
         public static int Precio;
         public static void CargaPrecio()
         {
@@ -140,6 +160,7 @@
     }
     public class Suite : Habitacion
     {
+        public static readonly string tipo = "Suite";
         public static int Precio;
         public static void CargaPrecio()
         {
