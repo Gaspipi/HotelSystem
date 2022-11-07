@@ -1,4 +1,6 @@
-﻿namespace HotelSystem
+﻿using System.Data.SqlClient;
+
+namespace HotelSystem
 {
     /// <summary>
     /// Summary description for Hotel
@@ -9,7 +11,7 @@
         private static List<Habitacion> coleccionHabitaciones = new();
         //private List<Servicio> coleccionServicios = new();
         private static List<Reserva> coleccionReservas = new();
-        public void Inicio()
+        public static void Inicio()
         {
             ///Aqui se inicializan todas las variables de instancia.
             Individual.CargaPrecio();
@@ -100,7 +102,7 @@
                 }
             } while (op != 0);
         }
-        public void MenuHabitaciones()
+        public static void MenuHabitaciones()
         {
             int op;
             Habitacion objHabitacion;
