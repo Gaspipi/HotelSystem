@@ -1,6 +1,4 @@
-﻿using System.Data.SqlClient;
-
-namespace HotelSystem
+﻿namespace HotelSystem
 {
     /// <summary>
     /// Summary description for Hotel
